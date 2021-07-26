@@ -10,27 +10,31 @@
  * @param {number} k
  * @return {ListNode}
  */
+
+let reverse = function (head, tail) {
+    let pre = null, next = null;
+    while (head != tail) {
+        next = head.next;
+        head.next = pre;
+        pre = head;
+        head = next;
+    }
+    return pre;
+}
+
 var reverseKGroup = function (head, k) {
-    let stack = [];
     if (!head || !head.next) return head;
 
-    let localk = k;
-    let dummy = new ListNode(0), pre = dummy, curr = head;
+    let tail = head;
 
-    while (localk > 0 && curr) {
-        stack.push(curr);
-        curr = curr.next;
-        localk--;
+    for (let i = 0; i < k; i++) {
+        if (!tail) return head;
+        tail = tail.next;
     }
 
-    if (localk > 0) return head;
+    let newHead = reverse(head, tail);
 
-    while (stack.length > 0) {
-        pre.next = stack.pop();
-        pre = pre.next;
-    }
+    head.next = reverseKGroup(tail, k);
 
-    pre.next = reverseKGroup(curr, k);
-
-    return dummy.next;
+    return newHead;
 };
