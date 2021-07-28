@@ -42,6 +42,8 @@ function isPalindrome(head: ListNode | null): boolean {
 
     while (right) {
         if (left!.val !== right.val) {
+            // 还原链表
+            p!.next = reverseLN(q);
             return false;
         }
 
